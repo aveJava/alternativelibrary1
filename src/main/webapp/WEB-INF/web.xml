@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1"
+
+         metadata-complete = "true">   <!-- от глюков при работе в glassfish -->
+
+    <!-- DispatcherServlet здесь указывать не нужно - он настраивается автоматически с помощью Spring Boot -->
+    <!-- JSF настраивается не автоматически, поэтому все, что дальше - это настройки JSF -->
+    <!-- -->
+
+    <servlet>  <!-- здесь определяеся сервлет facesServlet (его имя и адрес) -->
+        <servlet-name>facesServlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
+    <servlet-mapping>   <!-- запросы типа .xhtml и запросы, которые относятся к ресурсам JSF будут обрабатываться facesServlet -->
+        <servlet-name>facesServlet</servlet-name>
+        <url-pattern>/javax.faces.resource/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/index.xhtml</location>
+    </error-page>
+
+
+    <!-- для правильного отображения дат в компонентах JSF (будет использоваться timeZone cервера) -->
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+</web-app>
